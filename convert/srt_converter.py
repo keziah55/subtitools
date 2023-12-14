@@ -102,7 +102,7 @@ class SrtConverter:
         self._quiet = quiet
         self._subs = []
 
-    def convert(self, in_path, out_path=None, **kwargs):
+    def convert(self, in_path, out_path=None, encoding='utf-8', **kwargs):
         """ 
         Convert subtitle file `in_path` to srt and write to `out_path`
         
@@ -110,7 +110,7 @@ class SrtConverter:
         otherwise overwrite without prompting).
         """
         in_path = Path(in_path)
-        file_content = self._parse(in_path)
+        file_content = self._parse(in_path, encoding=encoding)
         
         if out_path is None:
             out_path = in_path
@@ -130,7 +130,7 @@ class SrtConverter:
         with open(out_path, 'w') as fileobj:
             fileobj.write(subtitles)
             
-    def _parse(self, p: Path) -> list:
+    def _parse(self, p: Path, encoding: str='utf-8') -> list:
         """ 
         Return list of non-empty lines in file `path`. 
         
@@ -138,7 +138,7 @@ class SrtConverter:
         """
         self._verify_file(p)
         
-        with open(p) as fileobj:
+        with open(p, encoding=encoding) as fileobj:
             text = fileobj.read()
         lines = [line for line in text.split("\n") if line]
         

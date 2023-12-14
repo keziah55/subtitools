@@ -27,6 +27,8 @@ def main(*args):
     parser.add_argument('-f', '--fps', help='Frame rate', type=int)
     parser.add_argument('-t', '--type', help='Input format (without leading .)')
     parser.add_argument('-q', '--quiet', help='Quiet mode', action='store_true')
+    parser.add_argument('-e', '--encoding', help='Encoding to use when reading file',
+                        default='utf-8')
     
     args = parser.parse_args(args)
     
@@ -46,4 +48,4 @@ def main(*args):
         if args.fps is not None:
             kwargs['fps'] = args.fps
         conv = conv_cls(args.quiet)
-        conv.convert(in_path, out_path, **kwargs)
+        conv.convert(in_path, out_path, args.encoding **kwargs)

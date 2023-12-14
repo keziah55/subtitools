@@ -12,11 +12,11 @@ rng_regex = re.compile(r"(?P<start>\d\d:\d\d:\d\d,\d\d\d) --> (?P<end>\d\d:\d\d:
 ts_regex = re.compile(r"(?P<hour>\d\d):(?P<minute>\d\d):(?P<second>\d\d),(?P<microsecond>\d\d\d)")
 ts_groups = ['hour', 'minute', 'second', 'microsecond'] # final group in srt timestamp is ms, but datetime needs microsecond
 
-def do_shift(fname, h=0, m=0, s=0, ms=0):
+def do_shift(fname, h=0, m=0, s=0, ms=0, encoding='utf-8'):
     out = ""
     t_shift = timedelta(hours=h, minutes=m, seconds=s, milliseconds=ms)
 
-    with open(fname) as fileobj:
+    with open(fname, encoding=encoding) as fileobj:
         for line in fileobj.readlines():
             if (m := rng_regex.match(line)) is not None:
                 start = _shift(m.group('start'), t_shift)
@@ -54,13 +54,15 @@ def make_argparser():
                         default=0, type=int)
     parser.add_argument('-ms', '--milliseconds', help='Shift milliseconds. Default is 0', 
                         default=0, type=int)
+    parser.add_argument('-e', '--encoding', help='Encoding to use when reading file',
+                        default='utf-8')
     return parser
 
-def shift(file, output=None, hours=0, minutes=0, seconds=0, milliseconds=0):
+def shift(file, output=None, hours=0, minutes=0, seconds=0, milliseconds=0, encoding='utf-8'):
     if output is None:
         output = file
     
-    srt = do_shift(file, hours, minutes, seconds, milliseconds)
+    srt = do_shift(file, hours, minutes, seconds, milliseconds, encoding)
     
     with open(output, 'w') as fileobj:
         fileobj.write(srt)
