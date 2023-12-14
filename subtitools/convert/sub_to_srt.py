@@ -5,6 +5,8 @@ Convert .sub title with format
 `[start_frame][stop_frame][Subtitle]`
 to srt format.
 """
+
+import os
 import re
 from .srt_converter import SrtConverter, Subtitle
 
@@ -16,7 +18,7 @@ class SubToSrtConverter(SrtConverter):
             raise ValueError(f"Could not parse line '{line}'")
         else:
             frames = [int(m.group(g)) for g in ['start_frame', 'stop_frame']]
-            text = re.sub(r"\|", "\n", m.group('text'))
+            text = re.sub(r"\|", os.linesep, m.group('text'))
             ts = [self._format_time_frames(f, fps) for f in frames]
             sub = Subtitle(*ts, text)
             return sub

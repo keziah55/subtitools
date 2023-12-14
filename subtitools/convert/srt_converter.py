@@ -7,6 +7,8 @@ Use a mixin/subclass to implement `_parse_subtitle` method.
 
 Users should call :meth:`SrtConverter.convert` to read and write files.
 """
+
+import os
 from pathlib import Path
 import re
 from ..utils import read_lines
@@ -60,7 +62,7 @@ class Subtitle:
         return self.start == other.start
     
     def __repr__(self):
-        return f"{self.start} --> {self.stop}\n{self.text}"
+        return f"{self.start} --> {self.stop}{os.linesep}{self.text}"
     
     @staticmethod
     def format_timestamp(hr, mn, sc, ms) -> str:
@@ -126,7 +128,7 @@ class SrtConverter:
         subtitles = [self._parse_subtitle(line, **kwargs) for line in file_content]
         subtitles = self._verify_subtitles(subtitles)
         subtitles = self._index_subtitles(subtitles)
-        subtitles = "\n".join(subtitles)
+        subtitles = os.linesep.join(subtitles)
         
         with open(out_path, 'w') as fileobj:
             fileobj.write(subtitles)
@@ -157,7 +159,7 @@ class SrtConverter:
     
     def _index_subtitles(self, subtitles: list[Subtitle]) -> list[str]:
         """ Return list of indexed strings from list of Subtitles. """
-        subtitles = [f"{idx+1}\n{sub}\n" for idx, sub in enumerate(subtitles)]
+        subtitles = [f"{idx+1}{os.linesep}{sub}{os.linesep}" for idx, sub in enumerate(subtitles)]
         return subtitles
         
     @staticmethod

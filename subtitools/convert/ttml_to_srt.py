@@ -4,6 +4,7 @@
 Convert .ttml subtitle files to .srt
 """
 
+import os
 import re
 from bs4 import BeautifulSoup
 from .srt_converter import SrtConverter, Subtitle
@@ -22,7 +23,7 @@ class TtmlToSrtConverter(SrtConverter):
         # i couldn't figure out how to get the text and spans, but ignore the brs
         # so let's just directly replace them with "\n" here
         body = str(soup.body)
-        body = re.sub(r"\<br */?\>", "\n", body)
+        body = re.sub(r"\<br */?\>", os.linesep, body)
         soup = BeautifulSoup(body, "xml")
         lines = soup.find_all('p')
         return lines
@@ -41,16 +42,10 @@ class TtmlToSrtConverter(SrtConverter):
         lines = [s for s in line.stripped_strings] 
         if len(lines) > 1:
             lines = [f"- {s}" for s in lines]
-        text = "\n".join(lines)
+        text = os.linesep.join(lines)
         sub = Subtitle(*ts, text)
         return sub
-            
-        # text = line.get_text(separator="\n")
-        # lines = [line.strip() for line in text.split("\n")]
-        # text = "\n".join(lines)
-        # sub = Subtitle(*ts, text)
-        # return sub
-    
+
     def _verify_subtitles(self, subtitles):
         """ 
         Check if there are multiple subtitles with the same start time. 
@@ -74,7 +69,7 @@ class TtmlToSrtConverter(SrtConverter):
                 start = group[0].start
                 stop = max([Subtitle.timestamp_to_seconds(sub.stop) for sub in group])
                 stop = Subtitle.seconds_to_timestamp(stop)
-                text = "\n".join([sub.text for sub in group])
+                text = os.linesep.join([sub.text for sub in group])
                 sub = Subtitle(start, stop, text)
             else:
                 sub = subtitles[idx]

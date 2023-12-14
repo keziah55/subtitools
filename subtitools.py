@@ -20,4 +20,4 @@ if arg0 in ["-h" or "--help"]:
 elif (mod:=modules.get(arg0, None)) is not None:
     mod.main(*args)
 else:
-    print(f"Unknown option '{arg0}'. Please see 'adapt -h' for usage")
+    print(f"Unknown option '{arg0}'. Please see 'subtitools -h' for usage")
