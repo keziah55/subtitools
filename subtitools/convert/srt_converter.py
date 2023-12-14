@@ -9,6 +9,7 @@ Users should call :meth:`SrtConverter.convert` to read and write files.
 """
 from pathlib import Path
 import re
+from utils import read_lines
 
 class Subtitle:
     """ 
@@ -137,11 +138,7 @@ class SrtConverter:
         If overriding, this method must return an iterable object.
         """
         self._verify_file(p)
-        
-        with open(p, encoding=encoding) as fileobj:
-            text = fileobj.read()
-        lines = [line for line in text.split("\n") if line]
-        
+        lines = read_lines(p)
         return lines
     
     def _parse_subtitle(self, line: str, **kwargs) -> Subtitle:
