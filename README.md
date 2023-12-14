@@ -5,17 +5,19 @@ A tool for manipulating subtitle files.
 ## Dependencies
 
 - python 3.9+
-
 - [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/bs4/doc/)
+
+Optionally, also install [charset_normalizer](https://pypi.org/project/charset-normalizer)
+to support reading non-UTF8 file out of the box.
 
 ## Usage
 
 You may wish to make `subtitools.py` executable and link it to a location in 
-your `PATH`, for example, to create a link in `~/bin`:
+your `PATH`, for example, to create a link in `~/.local/bin`:
 ```bash
 chmod 755 subtitools.py
 SUBTITOOLS=`readlink -f subtitools.py`
-cd ~/bin
+cd ~/.local/bin
 ln -s $SUBTITOOLS subtitools
 ```
 

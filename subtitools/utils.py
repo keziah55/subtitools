@@ -12,9 +12,8 @@ def read_lines(p: Path, encoding=None, strip_empty=True, quiet=False) -> list[st
     Return list of lines from file `p`.
     
     If `encoding` is explicitly provided, use that. 
-    Otherise, attempt to use `charset_normalizer <https://pypi.org/project/charset-normalizer/>`_ to detect encoding.
-    If `encoding` is None and charset_normalizer is not installed, use default
-    'utf-8'.
+    Otherise, attempt to use [charset_normalizer](https://pypi.org/project/charset-normalizer) to detect encoding.
+    If `encoding` is None and charset_normalizer is not installed, use default 'utf-8'.
     """
     if encoding is not None:
         text = _read_file(p, encoding=encoding)
@@ -36,8 +35,6 @@ def read_lines(p: Path, encoding=None, strip_empty=True, quiet=False) -> list[st
         lines = [line for line in text.split(os.linesep) if line]
     else:
         lines = [line for line in text.split(os.linesep)]
-    
-    print(lines[:10])
     
     return lines
 
