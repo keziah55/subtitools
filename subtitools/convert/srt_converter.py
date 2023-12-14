@@ -9,7 +9,7 @@ Users should call :meth:`SrtConverter.convert` to read and write files.
 """
 from pathlib import Path
 import re
-from utils import read_lines
+from ..utils import read_lines
 
 class Subtitle:
     """ 

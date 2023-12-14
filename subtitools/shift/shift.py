@@ -8,7 +8,7 @@ import re
 import os
 from datetime import datetime, timedelta
 import argparse
-from utils import read_lines
+from ..utils import read_lines
 
 rng_regex = re.compile(r"(?P<start>\d\d:\d\d:\d\d,\d\d\d) --> (?P<end>\d\d:\d\d:\d\d,\d\d\d)")
 ts_regex = re.compile(r"(?P<hour>\d\d):(?P<minute>\d\d):(?P<second>\d\d),(?P<microsecond>\d\d\d)")

@@ -3,15 +3,15 @@
 """
 Subtitle file manipulation tool.
 
-See `adapt convert -h` or `adapt shift -h` for more information.
+See `subtitools convert -h` or `subtitools shift -h` for more information.
 """
 
 import sys
-import shift
-import convert
+import subtitools.shift
+import subtitools.convert
 
-modules = {"shift": shift,
-           "convert": convert}
+modules = {"shift": subtitools.shift,
+           "convert": subtitools.convert}
 
 arg0, *args = sys.argv[1:]
 
